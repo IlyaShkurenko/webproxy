@@ -1,0 +1,17 @@
+{% include 'layout/stylesheets.html.twig' %}
+<section id="app">
+    <!-- sidebar-->
+    <aside class="aside col-lg-2">
+        {% include 'layout/sidebar.html.twig' %}
+        <!-- END Sidebar (left)-->
+    </aside>
+    <!-- Main section-->
+    <section class="col-lg-10">
+        {% include 'layout/content.html.twig' with {
+            content: block('content'), content_title: block('content_title')
+        } %}
+    </section>
+</section>
+{% if CONFIG_VIEW.layout.include_scripts %}{% include 'layout/scripts.html.twig' %}{% endif %}
+{% if CONFIG_VIEW.layout.include_scripts_app %}{% include 'layout/scripts_app.html.twig' %}{% endif %}
+{% if CONFIG_VIEW.layout.append_content %}{{ CONFIG_VIEW.layout.append_content | raw }}{% endif %}

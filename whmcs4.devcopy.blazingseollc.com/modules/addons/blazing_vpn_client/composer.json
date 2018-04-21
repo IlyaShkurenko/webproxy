@@ -1,0 +1,39 @@
+{
+    "name": "neilsblazingteam/whmcs-sprious-vpn-client",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "And",
+            "email": "and.webdev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~5.6|~7.0",
+        "and/whmcs-module-framework": "@dev",
+        "axelarge/array-tools": "@dev",
+        "0x6d617474/isolate": "~1.0",
+        "kriswallsmith/buzz": "~0.15",
+        "neilsblazingteam/logger": "~1.0-dev",
+        "pimple/pimple": "~3.2",
+        "symfony/http-foundation": "~3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Blazing\\Vpn\\Client\\": "src/"
+        }
+    },
+    "config": {
+        "prepend-autoloader": false,
+        "isolate": {
+            "prefix": "Blazing\\Vpn\\Client\\Vendor\\",
+            "autorun": true,
+            "blacklist": ["axelarge/array-tools", "and/symlink-detective"]
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/sprious-development/logger.git"
+        }
+    ]
+}

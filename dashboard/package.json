@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "async": "^2.3.0",
+    "fs-extra": "^3.0.1",
+    "grunt": "^1.0.1",
+    "grunt-bower-task": "^0.5.0",
+    "grunt-exec": "^2.0.0",
+    "grunt-modernizr": "^1.0.2",
+    "prefix-css": "0.0.6"
+  }
+}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}
+    Sign In
+{% endblock %}
+
+{% block content %}
+    {% include 'flash.html.twig' %}
+
+    <p class="lead">
+        If you do not have an account, please
+        <a href="{{ url('quick_buy_empty') }}" class="btn btn-success btn-lg">Sign Up</a>
+        <br>
+        If you do have an account with us, please input your credentials in the field below:
+    </p>
+
+    <div class="row">
+    <form class="form col-md-2" action="{{ url('loginType') }}" method="POST" data-toggle="validator">
+        <div class="form-group">
+            <label for="">Login or E-Mail</label>
+            <input class="form-control" type="text" name="login" value="{{ login }}" required />
+        </div>
+        <div class="form-group">
+            <label for="">Password</label>
+            <input class="form-control" type="password" name="password" required />
+        </div>
+        <div class="form-group">
+            {% include 'captcha.html.twig' %}
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-lg" value="Sign In" />
+        </div>
+    </form>
+    </div>
+
+    {% if options %}
+    <p class="lead">
+        Unsure of what system you're on? Please contact <a href="mailto:support@blazingseollc.com">support@blazingseollc.com</a> and we'll help you immediately. <br>
+        Most liklely you are trying to login from a different email than you signed up with and we'll help you figure out which one is correct.
+        <br><br>
+        But of course you can try to Sign In through the
+        <span data-toggle="tooltip" data-placement="top" title="The new proxy dashboard with new features. If you purchased/upgraded your package after March 2017, then sign in here">
+            <a href="{{ url('login') }}" class="btn btn-info">W/ WHMCS</a>
+            <i class="fa fa-question-circle"></i>
+        </span>
+        {% if CONFIG_VIEW.feature.amember %}
+        or
+        <span data-toggle="tooltip" data-placement="top" title="The old proxy dashboard">
+            <a href="{{ url_remote('loginAmember') }}" class="btn btn-warning">W/ AMember</a>
+            <i class="fa fa-question-circle"></i>
+        </span>
+        {% endif %}
+        buttons.<br>
+        Hover the mouse on
+        <i class="fa fa-question-circle" data-toggle="tooltip" title="Right, just like this one"></i>
+        sign below to be informed on each option
+    </p>
+    {% endif %}
+
+    <hr>
+
+    <p>
+        <a href="{{ url('index') }}" class="btn btn-default">&leftarrow; Initial page</a>
+    </p>
+{% endblock %}

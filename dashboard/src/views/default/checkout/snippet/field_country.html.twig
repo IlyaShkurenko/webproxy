@@ -1,0 +1,8 @@
+<select name="plan[country][]" class="country form-control" required>
+    <option value=""></option>
+    {% for value in available | pluck('country') | unique %}
+        <option value="{{ value }}"{%
+        if data.country is defined and data.country == value %} selected="selected"{% endif
+        %}>{{ ('proxy.country.' ~ value) | trans }}</option>
+    {% endfor %}
+</select>

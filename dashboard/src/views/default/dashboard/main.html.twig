@@ -1,0 +1,282 @@
+{% extends "base.html.twig" %}
+
+{% block content_title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    {% include 'flash.html.twig' %}
+
+    {% if plans is empty %}
+        <div class="text-center">
+            <h1>You currently do not have a plan</h1>
+            <a href="{{ path('checkout') }}" class="btn btn-primary btn-lg">
+                <h4>Get A Plan&nbsp;&nbsp;<i class="fa fa-plus-circle"></i></h4>
+            </a>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <!-- START widget-->
+                <div class="panel widget bg-primary">
+                    <div class="row row-table">
+                        <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                            <em class="icon-shuffle fa-3x"></em>
+                        </div>
+                        <div class="col-xs-8 pv-lg">
+                            <div class="h2 mt0">
+                                <span class="total-ports">
+                                    {{ ports | length }}
+                                </span>
+                            </div>
+                            <div class="text-uppercase">Proxies
+                                <br><br>
+                                <a href="{{ path('checkout') }}" style="color:yellow;"><b>Upgrade Your Plan</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- START widget-->
+                <div class="panel widget bg-green">
+                    <div class="row row-table">
+                        <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                            <em class="icon-speedometer fa-3x"></em>
+                        </div>
+                        <div class="col-xs-8 pv-lg">
+                            <div class="h2 mt0 text-uppercase">UNLIMITED</div>
+                            <div class="text-uppercase">Threads Allowed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- START widget-->
+                <div class="panel widget bg-danger">
+                    <div class="row row-table">
+                        <div class="col-xs-4 text-center bg-danger-dark pv-lg">
+                            <em class="icon-graduation fa-3x"></em>
+                        </div>
+                        <div class="col-xs-8 pv-lg">
+                            <div class="h2 mt0 text-uppercase">Proxy tester</div>
+                            <div>
+                                <strong>Download</strong> -
+                                <a class="text-yellow" href="{{ url('root') }}/download/BlazingSEO_Proxy_Checker_mac.zip">Mac</a>
+                                /
+                                <a class="text-yellow" href="{{ url('root') }}/download/BlazingSEO_Proxy_Checker_win.exe">Windows</a>
+                            </div>
+                            <div class="form-inline form-group-sm"><strong>Email</strong> - <input class="form-control" type="text" value="{{ USER.email }}" onfocus="$(this).select();"/></div>
+                            <div class="form-inline form-group-sm"><strong>Key</strong> - &nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" value="{{ USER.api_key }}" onfocus="$(this).select();"/></div>
+                            <div><strong>How To Use</strong> - <a class="text-yellow" target="_blank" href="https://www.youtube.com/watch?v=tPKxrtBP5lU">Watch</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="pull-left">Assigned Ports</h4>
+
+                        <div class="dropdown pull-right ">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                Export
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a href="{{ path('exportProxies', { type: 'all' }) }}" target="_blank">ALL</a>
+                                </li>
+                                {% for plan in plans %}
+                                    <li>
+                                        <a href="{{ path('exportProxies', { type: "#{plan.country}-#{plan.category}"}) }}" target="_blank">{{ plan | humanizeProxyName }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br />
+                        <center>
+                            <a target="_blank" href="http://support.blazingseollc.com/support/solutions/articles/19000040769-proxies-not-working?utm_source=Dashboard&utm_campaign=ProxyNotWorkingDashboard">
+                                <font color="red">
+                                <u><b>Proxies not working? Read HERE before opening a ticket!</b></u>
+                                </font>
+                            </a>
+                            <br><br>
+                            <p>Need SOCKS support? <br><a target="_blank" href="http://support.blazingseollc.com/support/solutions/articles/19000068502-using-socks-protocol">CLICK HERE</a></p>
+                        </center>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive" id="assigned-ports">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>IP</th>
+                                        <th>Port</th>
+                                        <th>Location</th>
+                                        <th>Rotation</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for port in ports %}
+                                        <tr data-port-id="{{ port.id }}">
+                                            <td>
+                                                {% if port.category == 'rotating' %}
+                                                    {{ port.serverIp }}
+                                                {% elseif (port.ip) %}
+                                                    {{ port.ip }}
+                                                {% else %}
+                                                    <em>&lt;pending&gt;</em>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if port.category == 'rotating' %}
+                                                    {{ port.port }}
+                                                {% elseif USER.preferred_format == 'PW' %}
+                                                    {{ PW_PORT }}
+                                                {% else %}
+                                                    {{ IP_PORT }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ port.region }}
+                                            </td>
+                                            <td>
+                                                {% if port.category == 'rotating' %}
+                                                    <select data-port-id="{{ port.id }}" class="rotation-time">
+                                                        <option value="10" {% if port.rotationTime == 10 %}selected{% endif %} >10 mins</option>
+                                                        <option value="20" {% if port.rotationTime == 20 %}selected{% endif %} >20 mins</option>
+                                                        <option value="30" {% if port.rotationTime == 30 %}selected{% endif %} >30 mins</option>
+                                                        <option value="40" {% if port.rotationTime == 40 %}selected{% endif %} >40 mins</option>
+                                                        <option value="50" {% if port.rotationTime == 50 %}selected{% endif %} >50 mins</option>
+                                                        <option value="60" {% if port.rotationTime == 60 %}selected{% endif %} >60 mins</option>
+                                                        <option value="70" {% if port.rotationTime == 70 %}selected{% endif %} >70 mins</option>
+                                                        <option value="80" {% if port.rotationTime == 80 %}selected{% endif %} >80 mins</option>
+                                                        <option value="90" {% if port.rotationTime == 90 %}selected{% endif %} >90 mins</option>
+                                                        <option value="100" {% if port.rotationTime == 100 %}selected{% endif %} >100 mins</option>
+                                                    </select>&nbsp;
+                                                    <span class="status"></span>
+                                                {% elseif port.category == 'mapple' %}
+                                                    Never
+                                                {% elseif USER.rotate_30 %}
+                                                    30 Days
+                                                {% else %}
+                                                    Never
+                                                {% endif %}
+                                            </td>
+                                            <td {% if port.category == 'rotating' %}rowspan="2"{% endif %}>
+                                                {{ port | humanizeProxyName }}
+                                            </td>
+                                        </tr>
+                                        {% if port.category == 'rotating' %}
+                                            <tr>
+                                                <td colspan="4">
+                                                    <strong>Actual IP: {{ port.ip }}</strong>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                {# <?php if (userHasStaticAll(false, true)): ?> #}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Authorization Type</h4>
+                    </div>
+                    <div class="panel-body">
+                        {# <?php if(userHasRotateAll()): ?> #}
+                        <div class="alert alert-info">
+                            Your authorization type applies only to Dedicated and Semi-Dedicated Proxies. Rotate Proxies always use IP Auth.
+                        </div>
+                        {# <?php endif; ?> #}
+                        <div class="radio radio-primary">
+                            <input class="format" type="radio" name="format" id="format_ip" value="IP" {% if USER.preferred_format == 'IP' %}checked{% endif %} data-hasRotate="{{ hasRotate }}" data-hasStatic="{{ hasStatic }}">
+                            <label for="format_ip">Via IP</label>
+                        </div>
+                        <div class="radio radio-primary">
+                            <input class="format" type="radio" name="format" id="format_pw" value="PW" {% if USER.preferred_format == 'PW' %}checked{% endif %} data-hasRotate="{{ hasRotate }}" data-hasStatic="{{ hasStatic }}">
+                            <label for="format_pw">Username / Password</label>
+                        </div>
+                    </div>
+                </div>
+                {# <?php endif; ?> #}
+
+                <div id="PW-AUTH" class="panel panel-default {% if USER.preferred_format != 'PW' or not hasStatic %}hide{% endif %}">
+                    <div class="panel-heading">
+                        <h4 class="pull-left">Username / Password</h4>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-warning">
+                            It takes UP TO 10 minutes for your Username to be authorized. DO NOT attempt to connect to them until 10 minutes have gone by, they will not work.
+                        </div>
+                        Username: {{ apiUsername }}<br />
+                        Password: {{ USER.api_key }}
+                    </div>
+                </div>
+                <div id="IP-AUTH" data-has-rotate="" class="panel panel-default {% if USER.preferred_format != 'IP' and not hasRotate %}hide{% endif %}">
+                    <div class="panel-heading">
+                        <h4 class="pull-left">Authorized IPs <small class="help-block" style="display: inline-block;">(IPv4 only currently)</small></h4>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-warning">
+                            It takes UP TO 10 minutes for your IP to be authorized. DO NOT attempt to connect to them until 10 minutes have gone by, they will not work.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>IP</th>
+                                        <th>Add/Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for id, ip in ips %}
+                                    <tr data-ip-id="{{ id }}">
+                                        <td>{{ ip }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-labeled btn-danger remove-ip" data-ip-id="{{ id }}">
+                                                <span class="btn-label"><i class="fa fa-times"></i></span>Remove
+                                            </button>
+                                            <span class="status"></span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="new-ip" value=""/>
+                                            <em class="icon-location-pin use-current-ip" data-ip="{{ userIp }}"  data-toggle="tooltip" data-placement="right" data-original-title="Click to use my current IP"></em>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-labeled btn-success add-new-ip">
+                                                <span class="btn-label"><i class="fa fa-plus"></i></span>Add IP
+                                            </button>
+                                            <span class="status"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}

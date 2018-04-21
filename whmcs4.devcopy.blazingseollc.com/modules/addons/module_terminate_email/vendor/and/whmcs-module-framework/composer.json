@@ -1,0 +1,15 @@
+{
+    "name": "and/whmcs-module-framework",
+    "description": "WHMCS mini framework for module/plugin (+ some utilites bunch)",
+    "minimum-stability": "alpha",
+    "version": "0.5",
+    "require": {
+        "axelarge/array-tools": "@dev",
+        "and/symlink-detective": "0.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "WHMCS\\Module\\Framework\\": "src/"
+        }
+    }
+}

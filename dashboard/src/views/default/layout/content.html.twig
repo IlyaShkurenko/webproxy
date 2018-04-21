@@ -1,0 +1,19 @@
+<!-- Page content-->
+<div class="content-wrapper page-{{ CURRENT_ROUTE }}">
+    <h1 class="content-heading">
+        {%
+        if SEO_TITLE is defined and SEO_TITLE is not empty %}{{ SEO_TITLE }}{%
+        else %}{% if content_title is not empty %}{{ content_title | raw }}{% endif %}
+        {%
+        endif %}
+    </h1>
+    {%
+    if SEO_PAGE_DESCRIPTION is defined and SEO_PAGE_DESCRIPTION is not empty %}
+        <p class="lead">{{ SEO_PAGE_DESCRIPTION | raw }}</p>
+    {% endif %}
+    {% if content is empty %}
+        <div class="row"></div>
+    {% else %}
+        {{ content | raw }}
+    {% endif %}
+</div>

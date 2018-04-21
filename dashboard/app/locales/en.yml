@@ -1,0 +1,18 @@
+proxy.country.us: United States
+proxy.country.short.us: USA
+proxy.country.de: Germany
+proxy.country.short.de: German
+proxy.country.br: Brazil
+proxy.country.short.br: Brazil
+proxy.country.gb: UK
+proxy.country.short.gb: UK
+proxy.country.fr: France
+proxy.country.short.fr: French
+proxy.category.dedicated: Dedicated
+proxy.category.semi-3: Semi-Dedicated
+proxy.category.rotating: Rotating
+proxy.category.sneaker: Sneaker
+proxy.category.mapple: Maple
+proxy.category.kushang: Kushang
+proxy.category.block: Block
+proxy.name: %type% Proxies

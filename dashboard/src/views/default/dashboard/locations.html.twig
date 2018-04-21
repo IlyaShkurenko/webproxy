@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}
+    Locations
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <p>Any changes to your location preferences will take affect the next time your proxies rotate</p>
+            {% if app.session.get('redirect_dashboard') %}
+                <div class="alert alert-info">You Need to Set Locations Before You Can Access Any Other Areas of the Dashboard</div>
+            {% endif %}
+            <p><b><u><a target="_blank" href="http://support.blazingseollc.com/support/solutions/articles/19000040771-proxy-location-wrong?utm_source=Dashboard&utm_campaign=ProxyLocationWrongDashboard">Locations not showing up correctly when checked? READ HERE</a></u></b></p>
+        </div>
+
+        {% for plan in plans %}
+        <div class='col-md-6'>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{ plan | humanizeProxyName }}</h4>
+                </div>
+                <div class="panel-body">
+                    <form class="location_form {{ plan.country }}_{{ plan.category }}">
+                        <div class="alert alert-success location-settings-message hide">Successfully Updated</div>
+                        <input type="submit" class="location_save btn btn-primary location_save disabled" value="Save Location Settings" />
+
+                        <span class="{{ plan.country }}_{{ plan.category }} hide less label label-danger">You have to many proxies assigned</span>
+                        <span class="{{ plan.country }}_{{ plan.category }} hide more label label-info">You still have proxies to assign</span>
+                        <span class="{{ plan.country }}_{{ plan.category }} hide good label label-success">All your proxies are assigned</span>
+                        <br>
+
+                        <div class="row" style="border-bottom: 1px solid #999; margin-top: 5px; padding: 5px 0">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div style="font-size: 20px;" id="{{ plan.country }}_{{ plan.category }}_total" class="text-center location_category" data-category="{{ plan.category }}" data-total="{{ plan.count }}">
+                                         {{ plan.count }}
+                                    </div>
+                                </div>
+                                <label class="col-sm-10 control-label" style="font-size: 20px;">Total Proxies To Be Assigned</label>
+                            </div>
+                        </div>
+
+                        {% for location in locations
+                            if location.country == plan.country %}
+                        <div class="row" style="border-bottom: 1px solid #999; margin-top: 5px; padding: 5px 0">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <input type="number"
+                                           class="form-control region"
+                                           data-country="{{ plan.country }}"
+                                           data-category="{{ plan.category }}"
+                                           name="ports[{{ plan.country }}][{{ plan.category }}][{{ location.id }}]"
+                                    value="{{ (plan.region[location.id] is defined) ? plan.region[location.id] : 0 }}" />
+                                </div>
+                                <label class="col-sm-10 control-label" style="font-size: 20px;">
+                                    {{ location.region }}{% if location.state %}, {{ location.state }}{% endif %}
+
+                                    {% if location.id == 1 %}
+                                    <div class="alert alert-success" style="font-size: 12px">
+                                        This is your best option for a lot of subnets. Our algorithm will give you the BEST subnet diversity and not be concerned about locations.
+                                    </div>
+                                    {% endif %}
+
+                                    {% if location.id != 1 and location[plan.category] < plan.count %}
+                                    <div class="alert alert-info" style="font-size: 12px">
+                                        There {{ location[plan.category]|abs }} proxies in this location. <br /> If you choose more from this location, you will need to wait up to 48 hours to receive them.
+                                    </div>
+                                    {% endif %}
+                                </label>
+                                <br />
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <br />
+                        <input type="submit" class="location_save btn btn-primary location_save disabled" value="Save Location Settings" />
+                        <span class="{{ plan.country }}_{{ plan.category }} hide less label label-danger">You have to many proxies assigned</span>
+                        <span class="{{ plan.country }}_{{ plan.category }} hide more label label-info">You still have proxies to assign</span>
+                        <span class="{{ plan.country }}_{{ plan.category }} hide good label label-success">All your proxies are assigned</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

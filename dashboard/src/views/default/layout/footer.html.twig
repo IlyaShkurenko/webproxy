@@ -1,0 +1,23 @@
+<!-- Page footer-->
+<footer>
+    <ul class="footer-nav">
+        <li>
+            <span>&copy; <?php echo date("Y"); ?> - {{ CONFIG_VIEW.text.company_title }}</span>
+        </li>
+        {% if CONFIG_VIEW.link.pp %}
+            <li>
+                <a target="_blank" href="{{ CONFIG_VIEW.link.pp }}" class="settings-ctrl">Privacy Policy</a>
+            </li>
+        {% endif %}
+        {% if CONFIG_VIEW.link.checkout.tos %}
+        <li>
+            <a target="_blank" href="{{ CONFIG_VIEW.link.checkout.tos }}" class="settings-ctrl">Terms of Use</a>
+        </li>
+        {% endif %}
+        {% if CONFIG_VIEW.link.checkout.aup %}
+            <li>
+                <a target="_blank" href="{{ CONFIG_VIEW.link.checkout.aup }}" class="settings-ctrl">Acceptable User Policy</a>
+            </li>
+        {% endif %}
+    </ul>
+</footer>

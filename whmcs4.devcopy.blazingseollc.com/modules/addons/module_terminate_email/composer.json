@@ -1,0 +1,23 @@
+{
+    "name": "neilsblazingteam/whmcs-proxy-seller",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Dmitriy Kachurovskiy",
+            "email": "kd.softevol@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "and/whmcs-module-framework": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "WHMCS\\Module\\Blazing\\Notify\\": "src"
+        }
+    },
+    "config": {
+        "prepend-autoloader": false
+    },
+    "minimum-stability": "dev"
+}

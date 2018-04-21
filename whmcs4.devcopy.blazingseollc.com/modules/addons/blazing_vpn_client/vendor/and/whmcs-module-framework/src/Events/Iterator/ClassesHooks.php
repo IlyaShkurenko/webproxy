@@ -1,0 +1,26 @@
+<?php
+
+namespace Blazing\Vpn\Client\Vendor\WHMCS\Module\Framework\Events\Iterator;
+
+use ErrorException;
+use Blazing\Vpn\Client\Vendor\WHMCS\Module\Framework\Events\AbstractHookListener;
+/**
+ * Class ClassesHooks
+ *
+ * @deprecated
+ */
+class ClassesHooks
+{
+    public static function registerHooks(array $classes)
+    {
+        foreach ($classes as $class) {
+            /** @var AbstractHookListener $instance */
+            $instance = new $class();
+            $abstractParent = AbstractHookListener::class;
+            if (!$instance instanceof $abstractParent) {
+                throw new ErrorException(sprintf('Class "%s" should be inherited from "%s" class', $class, AbstractHookListener::class));
+            }
+            $instance->register();
+        }
+    }
+}

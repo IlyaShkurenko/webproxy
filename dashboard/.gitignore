@@ -1,0 +1,13 @@
+/config.php
+nbproject
+/vendor
+/web/assets/vendor
+/web/vendor
+/app/routing_seo.php
+/node_modules
+/web/assets/css/prefixed/*
+/web/assets/theme_prefixed/*
+/app/config/view_append.html.twig
+/logs/*
+!/logs/.gitkeep
+/.logger.env.yml

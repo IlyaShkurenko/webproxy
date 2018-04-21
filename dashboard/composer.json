@@ -1,0 +1,45 @@
+{
+    "require": {
+        "silex/silex": "~2.0",
+        "doctrine/dbal": "~2.2",
+        "twig/twig": "^1.24",
+        "symfony/twig-bridge": "^3.1",
+        "monolog/monolog": "^1.21",
+        "swiftmailer/swiftmailer": "^5.4",
+        "symfony/var-dumper": "^3.1",
+        "firebase/php-jwt": "^4.0",
+        "and/migrate-comfortable": "@dev",
+        "axelarge/array-tools": "@dev",
+        "kriswallsmith/buzz": "~0.15",
+        "gears/arrays": "~0.7",
+        "symfony/translation": "~3.2.7",
+        "neilsblazingteam/logger": "~1.0-dev",
+        "google/recaptcha": "~1.1",
+        "neilsblazingteam/proxy-reseller-api": "2.1.*@dev",
+        "neilsblazingteam/rest-api-request-handler": "~1.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/sprious-development/logger.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/sprious-development/proxy-reseller-api.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/sprious-development/rest-api-request-handler.git"
+        }
+    ],
+    "config": {
+        "logger": {
+            "appName": "proxy-dashboard"
+        }
+    }
+}

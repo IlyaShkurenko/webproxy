@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'layout/meta.html.twig' %}
+        <base href="{{ MAIN_URL }}">
+        {% include 'layout/stylesheets.html.twig' %}
+        {% if CONFIG_VIEW.layout.append_head %}{{ CONFIG_VIEW.layout.append_head | raw }}{% endif %}
+    </head>
+
+    <body>
+        {% if CONFIG_VIEW.layout.prepend_content %}{{ CONFIG_VIEW.layout.prepend_content | raw }}{% endif %}
+        <span class="corner-ribbon left-top" title="Beta">Beta</span>
+        <div class="wrapper">
+            <!-- top navbar-->
+            <header class="topnavbar-wrapper">
+                <!-- START Top Navbar-->
+                <nav role="navigation" class="navbar topnavbar">
+                    <!-- START navbar header-->
+                    <div class="navbar-header">
+                        <h3>{{ CONFIG_VIEW.text.company_title }}</h3>
+                    </div>
+                    <!-- END navbar header-->
+
+                    <!-- START Nav wrapper-->
+                    <div class="nav-wrapper">
+                        <!-- START Right Navbar-->
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <!-- Fullscreen (only desktops)-->
+                            <li class="visible-lg">
+                                <a href="#" data-toggle-fullscreen="">
+                                    <em class="fa fa-expand"></em>
+                                </a>
+                            </li>
+
+                            <!-- START Contacts button-->
+                            {% if USER is not empty %}
+                            <li>
+                                <a href="{{ url('logout') }}" data-toggle-state="offsidebar-open" data-no-persist="true">
+                                    <em class="icon-logout"></em>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <!-- END Contacts menu-->
+                        </ul>
+                        <!-- END Right Navbar-->
+                    </div>
+                    <!-- END Nav wrapper-->
+
+                </nav>
+                <!-- END Top Navbar-->
+            </header>
+            <!-- sidebar-->
+            <aside class="aside">
+                {% include 'layout/sidebar.html.twig' %}
+                <!-- END Sidebar (left)-->
+            </aside>
+            <!-- Main section-->
+            <section>
+                {% include 'layout/content.html.twig' with {
+                    content: block('content'), content_title: block('content_title')
+                } %}
+            </section>
+        {% include 'layout/footer.html.twig' %}
+    </div>
+    {% include 'layout/scripts.html.twig' %}
+    {% include 'layout/scripts_app.html.twig' %}
+    {% if CONFIG_VIEW.layout.append_content %}{{ CONFIG_VIEW.layout.append_content | raw }}{% endif %}
+</body>
+</html>

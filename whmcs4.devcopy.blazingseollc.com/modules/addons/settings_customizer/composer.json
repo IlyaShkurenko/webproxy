@@ -1,0 +1,28 @@
+{
+    "name": "neilsblazingteam/whmcs-settings-customizer",
+    "description": "WHMCS plugin to adjust some settings, turn them on/off, disallow to edit",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "And",
+            "email": "and.webdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6",
+        "and/whmcs-module-framework": "0.5.*@dev",
+        "and/symlink-detective": "@dev",
+        "axelarge/array-tools": "@dev",
+        "0x6d617474/isolate": "~1.0"
+    },
+    "require-dev": {},
+    "autoload": { "psr-4": { "WHMCS\\Module\\Blazing\\SettingsCustomizer\\": "src" } },
+    "config": {
+        "prepend-autoloader": false,
+        "isolate": {
+            "prefix": "WHMCS\\Module\\Blazing\\SettingsCustomizer\\Vendor\\",
+            "autorun": true
+        }
+    }
+}

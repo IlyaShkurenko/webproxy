@@ -1,0 +1,233 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}
+    {% if upgradableProducts is empty %}Choose Your Plan{% else %}Choose a Plan to Upgrade{% endif %}
+{% endblock %}
+
+{% block content %}
+    {% include 'flash.html.twig' %}
+    {% if upgradableProducts is not empty %}
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2"><label>New Amount</label></div>
+            <div class="col-md-1"><label>Actions</label></div>
+        </div>
+        {% for upgradableProduct in upgradableProducts %}
+            <div class="row proxy-upgrade">
+                <form method="POST" action="{{ url('doCheckout') }}" data-toggle="validator" class="active-spinner">
+                    <div class="col-md-4">
+                        <h3 style="margin: 6px 0">
+                            {{ upgradableProduct.amount }} x {{ upgradableProduct | humanizeProxyName }}
+                            {% if upgradableProduct.source != 'whmcs' %}({{ upgradableProduct.source | upper }}){% endif %}
+                            {% if upgradableProduct.status != 'active' %}
+                                <p>
+                                ({{ upgradableProduct.status | upper }})
+                                {% if upgradableProduct.extended.statusReason is defined %}
+                                <i class="fa fa-question-circle"
+                                   data-toggle="tooltip" data-placement="right"
+                                   title="Reason - &quot;{{ upgradableProduct.extended.statusReason }}&quot;"></i>
+                                {% endif %}
+                                </p>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-amount" data-toggle="tooltip" data-placement="right"
+                             title='The amount shown here is what your TOTAL proxy package will be when you upgrade.
+                             This does not "add" on top of your previous package.
+                             All current proxies will remain intact when you upgrade.' data-trigger="hover">
+                            <input type="hidden" name="plan[country][]" value="{{ upgradableProduct.country }}" class="country" />
+                            <input type="hidden" name="plan[category][]" value="{{ upgradableProduct.category }}" class="category" />
+                            {% if upgradableProduct.product is not empty and 'active' == upgradableProduct.status %}
+                                <input type="number" name="plan[amount][]"
+                                       class="form-control field-amount"
+                                        {% if migrateAutomatically is not empty and
+                                        data.quantity is not empty and
+                                        upgradableProduct.country == data.country and
+                                        upgradableProduct.category == data.category
+                                        %}
+                                            value="{{ data.quantity }}"
+                                        {% else %}
+                                           value="{{ min(
+                                                max(
+                                                    (upgradableProduct.amount / upgradableProduct.product.amount.step)
+                                                    | round(0, 'ceil') * upgradableProduct.product.amount.step
+                                                        * 2,
+                                                    upgradableProduct.product.amount.min),
+                                                    upgradableProduct.product.amount.max
+                                                )}}"
+                                        {% endif %}
+                                       min="{{ upgradableProduct.product.amount.min }}"
+                                       max="{{ upgradableProduct.product.amount.max }}"
+                                       step="{{ upgradableProduct.product.amount.step }}"
+                                       data-not-equals="{{ upgradableProduct.amount }}"
+                                       required
+                                       data-country="{{ upgradableProduct.country }}"
+                                       data-category="{{ upgradableProduct.category }}" {%
+                                       if upgradableProduct.source != 'whmcs' and
+                                       (upgradableProduct.source == 'amember'
+                                       and migrateFeature is defined and migrateFeature is not empty) is empty
+                                       %}disabled="disabled"{% endif %}/>
+                                <span class="help-block with-errors"></span>
+                            {% else %}
+                                <input type="number" class="form-control field-amount" name="plan[amount][]" value="{{ upgradableProduct.amount }}" disabled="disabled">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {% if upgradableProduct.product is empty %}
+                                <div data-toggle="tooltip" data-placement="bottom" style="display: inline-block;"
+                                     title="This plan cannot be upgraded/cancelled. Contact please administrator by needs">
+                                    <a class="btn btn-primary disabled">Upgrade</a>
+                                    <a class="btn btn-danger disabled">Cancel</a>
+                                </div>
+                            {% elseif upgradableProduct.source == 'whmcs' %}
+                                {% if 'active' == upgradableProduct.status %}
+                                    <button type="submit" class="btn btn-primary btn-confirm"
+                                            data-title="Plan Upgrade"
+                                            data-text-callback="function() {
+                                                return 'Your plan will be upgraded from {{ upgradableProduct.amount }} '
+                                                + 'total proxies to '
+                                                + $(this).closest('form').find('.field-amount').val()
+                                                + ' total proxies.'; }"
+                                            data-btn-ok-class="btn-primary"
+                                    >Upgrade</button>
+                                {# Invoice url #}
+                                {% elseif upgradableProduct.extended.invoiceUrl is defined %}
+                                    <div data-toggle="tooltip" data-placement="bottom" style="display: inline-block;"
+                                         title="Unpaid invoice">
+                                        <a class="btn btn-success" href="{{ upgradableProduct.extended.invoiceUrl }}">Pay</a>
+                                    </div>
+                                {# Upgrade is prohibited #}
+                                {% else %}
+                                    <div data-toggle="tooltip" data-placement="bottom" style="display: inline-block;"
+                                         title="This plan cannot be upgraded">
+                                        <a class="btn btn-primary disabled">Upgrade</a>
+                                    </div>
+                                {% endif %}
+                                <a class="btn btn-danger btn-confirm"
+                                        data-title="Plan Cancellation"
+                                        data-text="You are attempting to cancel your proxy plan.<br>
+                                            This will entirely remove your proxies! <br><br>
+                                            If you were trying to Upgrade, please click Cancel below and click the Upgrade button.
+                                            If you want to cancel your proxy plan, please press OK below."
+                                        data-callback="function(self) {
+                                            var form = self.closest('form');
+                                            form.find('.field-amount').prop('disabled', false).val(null);
+                                            form.validator('destroy');
+                                            form.submit();
+                                        }"
+                                >Cancel</a>
+                            {% else %}
+                                {# Upgrade with migration #}
+                                {% if upgradableProduct.source == 'amember'
+                                    and migrateFeature is defined and migrateFeature is not empty %}
+                                    <button type="submit" class="btn btn-primary btn-migrate"
+                                            data-url="{{ url('checkout_migrate_amember_whmcs', { packageId: upgradableProduct.id }) }}"
+                                            data-title="Plan Migration & Upgrade"
+                                            data-text-callback="function() {
+                                                return 'To upgrade, we must migrate your package'
+                                                    + ' from our old billing system (Amember) '
+                                                    + ' to our new robust payment gateway (WHMCS).'
+                                                    + ' You are upgrading from {{ upgradableProduct.amount }} total proxies to '
+                                                    + $(this).closest('form').find('.field-amount').val()
+                                                    + ' total proxies which means '
+                                                    + ($(this).closest('form').find('.field-amount').val() - {{ upgradableProduct.amount }})
+                                                    + ' new proxies'
+                                                    + ' will be added into your account.<br><br>Do you wish to continue?<br>'; }"
+                                            data-callback="function() { $(this).closest('form').submit(); }"
+                                            data-btn-ok-class="btn-primary"
+                                            {% if migrateAutomatically is not empty and
+                                                data.quantity is not empty and
+                                                upgradableProduct.country == data.country and
+                                                upgradableProduct.category == data.category %}
+                                                data-autorun="1"
+                                            {% endif %}
+                                    >Upgrade</button>
+                                    <div data-toggle="tooltip" data-placement="bottom" style="display: inline-block;"
+                                         title="{{ upgradableProduct.source | capitalize }} plans cannot be cancelled">
+                                        <a class="btn btn-danger disabled">Cancel</a>
+                                    </div>
+                                    &nbsp;
+                                    <i class="fa fa-question-circle"
+                                       data-toggle="tooltip" data-placement="right"
+                                       title="{{ upgradableProduct.source | capitalize }} plans cannot be cancelled"></i>
+
+                                {# No upgrade, no cancellation #}
+                                {% else %}
+                                    <div data-toggle="tooltip" data-placement="bottom" style="display: inline-block;"
+                                        title="{{ upgradableProduct.source | capitalize }} plans cannot be upgraded/cancelled">
+                                        <a class="btn btn-primary disabled">Upgrade</a>
+                                        <a class="btn btn-danger disabled">Cancel</a>
+                                    </div>
+                                    &nbsp;
+                                    <i class="fa fa-question-circle"
+                                       data-toggle="tooltip" data-placement="right"
+                                       title="{{ upgradableProduct.source | capitalize }} plans cannot be upgraded/cancelled"></i>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if upgradableProducts is not empty %}
+        <br>
+        <br>
+        <h3 class="content-wrapper">Build Your Proxy Plan</h3>
+    {% endif %}
+
+    <div id="proxy-builder">
+        {#<button class="add btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i>  Add More Countries / Categories</button>#}
+        <form id="proxy-form" name="proxy-form" method="POST" action="{{ url('doCheckout') }}"
+              data-toggle="validator" class="active-spinner">
+            <div class="proxy-row row hide">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        {% include 'checkout/snippet/field_country.html.twig' with { 'data': data, 'available': available } only %}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Type</label>
+                        {% include 'checkout/snippet/field_category.html.twig' with { 'data': data, 'available': available } only %}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Amount</label>
+                        <input type="number" name="plan[amount][]" class="amount field-amount form-control m-b" min="1" required/>
+                        <span class="help-block with-errors"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">&nbsp;</label>
+                        {#<button class="btn btn-danger form-control"> <i class="fa fa-remove"></i> Remove </button>#}
+                    </div>
+                </div>
+            </div>
+            <div class="action-row">
+                <div class="promocode">
+                    <div class="form-inline">
+                        <input class="form-control" type="text" name="details[promocode]" value="" placeholder="Enter Your Code" />
+                        <a href="" class="btn btn-success">Apply Promo Code</a>
+                    </div>
+                </div>
+                <h4>Your Total for this plan is: <span class="discount-total hide">$0.00</span> <span id="total">$0.00</span></h4>
+                <div class="alert alert-danger disclaimer hide"></div>
+                {% include 'checkout/snippet/tos.html.twig' %}
+                <button id="submit" type="submit" class="btn btn-lg btn-primary">Checkout</button>
+            </div>
+            <input type="hidden" name="new" value="1">
+            {{ {
+                'availableProducts': available,
+                'boughtProducts': upgradableProducts
+            } | shareVars }}
+        </form>
+    </div>
+{% endblock %}

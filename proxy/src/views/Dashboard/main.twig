@@ -1,0 +1,75 @@
+{% extends 'backend.twig' %}
+
+{% block content %}
+<section>
+	<!-- Page content-->
+	<div class="content-wrapper">
+		<div class="content-heading">
+            Reseller Dashboard
+		</div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">            
+                <div class="panel widget bg-primary">
+                    <div class="row row-table">
+                        <div class="col-xs-2 text-center bg-primary-dark pv-lg">
+                            <em class="icon-key fa-3x"></em>
+                        </div>
+                        <div class="col-xs-10 pv-lg">
+                            <div class="h3 mt0">{{ api_key }}</div>
+                            <div class="text-uppercase">API Key</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 col-sm-12">
+            
+                <div class="panel widget bg-green">
+                    <div class="row row-table">
+                        <div class="col-xs-2 text-center bg-green-dark pv-lg">
+                            <em class="icon-diamond fa-3x"></em>
+                        </div>
+                        <div class="col-xs-10 pv-lg">
+                            <div class="h2 mt0">${{ credits }}</div>
+                            <div class="text-uppercase">Credits</div>                            
+                            <a class="btn btn-info" href="{{ path('credits', {'amount' : 10 }) }}">Add $10</a>
+                            <a class="btn btn-info" href="{{ path('credits', {'amount' : 50 }) }}">Add $50</a>
+                            <a class="btn btn-info" href="{{ path('credits', {'amount' : 100 }) }}">Add $100</a>
+                            <a class="btn btn-info" href="{{ path('credits', {'amount' : 1000 }) }}">Add $1000</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel widget bg-purple">
+                    <div class="row row-table">
+                        <div class="col-xs-2 text-center bg-purple-dark pv-lg">
+                           <em class="icon-wallet fa-3x"></em>
+                        </div>
+                        <div class="col-xs-10 pv-lg">
+                            <div class="h2 mt0">
+                                ${{ chargesDaily | number_format(4, '.', ',') }}
+                            </div>
+                            <div class="text-uppercase">Charges in the Next 24 Hours</div>
+                        </div>
+                    </div>
+                </div>  
+            
+                <div class="panel widget bg-purple">
+                    <div class="row row-table">
+                        <div class="col-xs-2 text-center bg-purple-dark pv-lg">
+                           <em class="icon-wallet fa-3x"></em>
+                        </div>
+                        <div class="col-xs-10 pv-lg">
+                            <div class="h2 mt0">
+                                ${{ charges | number_format(2) }}
+                            </div>
+                            <div class="text-uppercase">Charges in the Next 30 Days</div>
+                        </div>
+                    </div>
+                </div>  
+                
+            </div>            
+        </div>
+    </div>
+</section>
+{% endblock %}

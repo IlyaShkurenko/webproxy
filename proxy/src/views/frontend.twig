@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Landing Page Template">
+        <meta name="keywords" content="bootstrap, app, theme">
+        <meta name="author" content="@themicon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Reseller - Login Page</title>
+        <!-- PREALOADER (loads asap)-->
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/nprogress/nprogress.css">
+        <script src="{{ path('web_dir') }}frontend/vendor/nprogress/nprogress.js"></script>
+        <!-- FAVICON-->
+        <link rel="icon" href="img/favicon/favicon.ico">
+        <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-touch-icon-57x57-precomposed.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+        <!-- FONT-->
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic" rel="stylesheet" type="text/css">
+        <!-- ICONS-->
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/font-awesome/css/font-awesome.min.css">
+        <script src="{{ path('web_dir') }}frontend/vendor/jquery.browser/dist/jquery.browser.js"></script>
+        <script>
+        if ( window.jQBrowser.mobile && top.location != location) top.location.href = document.location.href;
+        </script>
+        <!-- VENDOR CSS-->
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/owl.carousel/dist/assets/owl.carousel.css">
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/owl.carousel/dist/assets/owl.theme.default.css">
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/Nivo-Lightbox/nivo-lightbox.css">
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/Nivo-Lightbox/themes/default/default.css">
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/vendor/animate.css/animate.css">
+        <!-- SITE CSS-->
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/css/styles.css" id="stylescss">
+        <link rel="stylesheet" href="{{ path('web_dir') }}frontend/css/theme-a.css">
+        <!--[if lt IE 9]><script src="{{ path('web_dir') }}frontend/js/html5shiv.js"></script><script src="{{ path('web_dir') }}frontend/js/respond.min.js"></script><![endif]-->
+    </head>
+    <body>
+	   <!-- WEBSITE PRELOADER-->
+	   <div class="preloader">
+		  <div class="loading">Loading ...</div>
+	   </div>
+	   <!-- START HEADER-->
+	   <header id="header" class="header novideo">
+		  <div class="xfull-screen">
+			 <!-- START STICKY NAVBAR-->
+			 <div class="navbar navbar-default navbar-fixed-top navbar-sticky">
+				<div class="container">
+				   <div class="navbar-header">
+					  <button type="button" data-toggle="collapse" data-target="#navbar-web_dir" class="navbar-toggle">
+						 <span class="sr-only">Toggle navigation</span>
+						 <span class="icon-bar"></span>
+						 <span class="icon-bar"></span>
+						 <span class="icon-bar"></span>
+					  </button>
+					  <a href="#" class="navbar-brand">
+						 Reseller
+					  </a>
+				   </div>
+				</div>
+			 </div>
+			 <!-- END STICKY NAVBAR-->
+		  </div>		  
+	   </header>
+	   {% block content %}{% endblock %}
+	   <!-- END SETTINGS-->
+	   <!-- VENDOR SCRIPTS-->
+	   <script src="{{ path('web_dir') }}frontend/vendor/jquery/dist/jquery.min.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/jquery.easing/js/jquery.easing.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/bootstrap/dist/js/bootstrap.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/waitForImages/dist/jquery.waitforimages.min.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/smoothscroll/smoothscroll.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/owl.carousel/dist/owl.carousel.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/Nivo-Lightbox/nivo-lightbox.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/html5shiv/dist/html5shiv.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/respond/src/respond.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/retina.js/dist/retina.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/jquery.scrollTo/jquery.scrollTo.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/wow/dist/wow.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/matchMedia/matchMedia.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/background-video/jquery.backgroundvideo.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/jQuery-One-Page-Nav/jquery.nav.js"></script>
+	   <script src="{{ path('web_dir') }}frontend/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+	   <!-- SITE SCRIPTS-->
+	   <script src="{{ path('web_dir') }}frontend/js/scripts.js"></script>
+	</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'ProxyDashboard/base.html.twig' %}
+
+{% block content_title %}
+    Sign In
+{% endblock %}
+
+{% block content %}
+    {% include 'ProxyDashboard/flash.html.twig' %}
+    <a href="{{ url('proxy_dashboard_login') }}" class="btn btn-primary btn-lg btn-active-spinner">Sign In</a>
+{% endblock %}

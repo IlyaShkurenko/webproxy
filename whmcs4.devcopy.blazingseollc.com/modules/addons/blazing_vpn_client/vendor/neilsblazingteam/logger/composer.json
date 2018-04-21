@@ -1,0 +1,21 @@
+{
+    "name": "neilsblazingteam/logger",
+    "version": "1.0",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "And",
+            "email": "and.webdev@gmail.com"
+        }
+    ],
+    "license": "proprietary",
+    "require": {
+        "monolog/monolog": "~1.22",
+        "symfony/yaml": ">=2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Blazing\\Logger\\": "src/"
+        }
+    }
+}

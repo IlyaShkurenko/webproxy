@@ -1,0 +1,36 @@
+{
+    "name": "blazig/getresponse_export",
+    "description": "WHMCS plugin which provides opportunity for billing products hourly",
+    "authors": [
+        {
+            "name": "Dmitriy Kachurovskiy",
+            "email": "dmitriy.kachurovskiy@sprious.com"
+        },
+        {
+            "name": "And",
+            "email": "and.webdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6",
+        "ext-curl": "*",
+        "and/whmcs-module-framework": "@dev",
+        "axelarge/array-tools": "@dev",
+        "0x6d617474/isolate": "~1.0"
+    },
+    "config": {
+        "prepend-autoloader": false,
+        "isolate": {
+            "prefix": "WHMCS\\Module\\Blazing\\Export\\Vendor\\",
+            "autorun": true,
+            "blacklist": ["axelarge/array-tools"]
+        }
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "WHMCS\\Module\\Blazing\\Export\\": "src"
+        }
+    }
+}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}
+    Replace My Proxies
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% include 'flash.html.twig' %}
+
+            Due to excessive demand, we are now offering proxy replacements. You are allowed to replace your amount of proxies once during the month on top of your 30-day rotation. <br />
+            <b>The 30-day rotation will take affect on the 30 days from the start of your subscription no matter when you replace your proxies</b>. That means if you replace an IP on day 29, and have your Settings page rotating you every 30 days, then the next day you would get a new IP. <br />
+            <br /><br /><br />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Replacements Remaining This Period</h3>
+                    <table class="table table-bordered">
+                        <tbody>
+                            {% for replacement in replacements %}
+                            <tr>
+                                <td>{{ replacement | humanizeProxyName }}</td>
+                                <td>{{ replacement.available }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        Please type in the proxies from your account below that you would like replaced. After pressing Submit, wait a couple minutes and your new IP will appear in your Dashboard for you to Export out. You can also use the table below.
+                    </p>
+                    <form method="POST" action="{{ path('replaceMultipleIp') }}">
+                        <div class="form-group">
+                            <textarea name="replace" class="form-control" rows="6">{{ app.session.getBag('vars').get('replaceMultipleIp') }}</textarea>
+                        </div>
+                        <input type="hidden" name="action" value="replace_multi_port">
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <h3>Your Proxies</h3>
+            <table class="table table-bordered table-stripped">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>IP</th>
+                        <th>Updated</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proxy in proxies %}
+                    <tr>
+                        <td>{{ proxy | humanizeProxyName }}</td>
+                        <td>{{ proxy.ip }}</td>
+                        <td>{{ proxy.updateTime }}</td>
+                        {% if proxy.pendingReplace %}
+                        <td><a class="btn btn-primary disabled" href="#">Pending Replacement</a></td>
+                        {% elseif proxy.ip %}
+                        <td><a class="btn btn-primary" href="{{ path('replaceIp', { 'id': proxy.id }) }}">Replace</a></td>
+                        {% else %}
+                        <td>&nbsp;</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

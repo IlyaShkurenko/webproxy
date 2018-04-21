@@ -1,0 +1,21 @@
+name: Doctrine Sandbox Migrations
+table_name: version
+migrations_directory: src/Migration
+migrations_namespace: Migration
+
+environment_type: array_in_file
+
+array_in_file:
+    file: config.migrations
+    variable: ~
+    data_mapping:
+        databaseDriver: driver
+        databaseName: database
+        databaseUser: user
+        databasePassword: password
+        databaseHost: host
+        databaseCharset: charset
+    default:
+        databaseDriver: pdo_mysql
+        databaseHost: localhost
+        databaseCharset: utf8

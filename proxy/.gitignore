@@ -1,0 +1,8 @@
+/vendor
+/config.php
+/deps
+/logs
+/var
+/app/config/*.yml
+/.logger.env.yml
+/web/assets/vendor

@@ -1,0 +1,38 @@
+<!-- START Sidebar (left)-->
+<div class="aside-inner">
+    <nav class="sidebar">
+        <!-- START sidebar nav-->
+        <ul class="nav">
+            <!-- Iterates over all sidebar items-->
+            <li class="nav-heading">
+                <span>Main Navigation</span>
+            </li>
+            <li>
+                <a href="{{ url('proxy_dashboard_index') }}" title="Dashboard">
+                    <em class="icon-home"></em>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            {% if USER.id is defined %}
+                <li>
+                    <a href="{{ url('proxy_dashboard_ipv4_import') }}">
+                        <em class="icon-cloud-upload"></em>
+                        <span>Import IPv4 Blocks</span>
+                    </a>
+                </li>
+
+                <li class="nav-heading">
+                    <span>IPv6</span>
+                </li>
+                <li>
+                    <a href="{{ url('proxy_dashboard_ipv6_import') }}">
+                        <em class="icon-cloud-upload"></em>
+                        <span>Import Blocks</span>
+                    </a>
+                </li>
+        {% endif %}
+        </ul>
+        <!-- END sidebar nav-->
+    </nav>
+</div>

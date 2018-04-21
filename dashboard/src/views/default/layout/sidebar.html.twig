@@ -1,0 +1,99 @@
+<!-- START Sidebar (left)-->
+<div class="aside-inner">
+    <nav class="sidebar">
+        <!-- START sidebar nav-->
+        <ul class="nav">
+            <!-- Iterates over all sidebar items-->
+            <li class="nav-heading ">
+                <span>Main Navigation</span>
+            </li>
+            <li>
+                <a href="{{ url('dashboard') }}" title="Dashboard">
+                    <em class="icon-home"></em>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            {% if HAS_IPv6 is empty %}
+                <li>
+                    <a href="https://blazingseollc.com/proxy/ipv6-proxies/" target="_blank">
+                        <em class="fa fa-flask"></em>
+                        Buy IPv6 Proxies
+                    </a>
+                </li>
+            {% endif %}
+            {% if USER is not empty %}
+                <li>
+                    <a href="{{ url('checkout') }}">
+                        <em class="icon-home"></em>
+                        <span>Upgrade</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url('replace') }}" >
+                        <em class="fa fa-exchange"></em>
+                        <span>Proxy Replacements</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if HAS_PROXIES %}
+                <li>
+                    <a href="{{ url('locations') }}" >
+                        <em class="fa fa-globe"></em>
+                        <span>Location Preferences</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if HAS_SNEAKER %}
+                <li>
+                    <a href="{{ url('sneaker') }}" >
+                        <em class="fa fa-globe"></em>
+                        <span>Sneaker Preferences</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if HAS_IPv6 %}
+                <li>
+                    <a href="{{ url('api_export_ipv6', { email: USER.email, key: USER.apiKey }) }}" target="_blank">
+                        <em class="fa fa-flask"></em>
+                        Export IPv6 list
+                    </a>
+                </li>
+            {% endif %}
+            {% if USER is not empty %}
+                <li>
+                    <a href="{{ url('settings') }}" >
+                        <em class="icon-settings"></em>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if CONFIG_VIEW.sidebar.contact %}
+            <li>
+                <a href="{{ url('contact') }}" >
+                    <em class="fa fa-envelope-o"></em>
+                    <span>Contact</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if CONFIG_VIEW.sidebar.admin and USER is defined and USER.admin is defined and USER.admin %}
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <a href="{{ path('admin_add') }}" title="Admin">
+                        <em class="icon-magic-wand"></em>
+                        <span>Add Proxies</span>
+                    </a>
+                </li>
+                <li >
+                    <a href="{{ path('admin_stats') }}" title="Stats">
+                        <em class="icon-briefcase"></em>
+                        <span>Stats</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        <!-- END sidebar nav-->
+    </nav>
+</div>

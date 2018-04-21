@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="{%
+        if SEO_DESCRIPTION is defined and SEO_DESCRIPTION is not empty %}{{ SEO_DESCRIPTION }}{%
+        else %}Blazing Proxies - Dashboard{%
+        endif %}">
+        <meta name="keywords" content="{%
+        if SEO_KEYWORDS is defined and SEO_KEYWORDS is not empty %}{{ SEO_KEYWORDS }}{%
+        else %}proxies, blazing, dashboard, admin{%
+        endif %}">
+        <title>{%
+            if SEO_TITLE is defined and SEO_TITLE is not empty %}{{ SEO_TITLE }}{%
+            else %}Proxy Admin Panel{%
+            endif %}</title>
+        <base href="{{ MAIN_URL }}">
+        {% include 'ProxyDashboard/layout/stylesheets.html.twig' %}
+    </head>
+
+    <body>
+        <span class="corner-ribbon left-top" title="Beta">Beta</span>
+        <div class="wrapper">
+            <!-- top navbar-->
+            <header class="topnavbar-wrapper">
+                <!-- START Top Navbar-->
+                <nav role="navigation" class="navbar topnavbar">
+                    <!-- START navbar header-->
+                    <div class="navbar-header">
+                        <h3>Admin panel</h3>
+                    </div>
+                    <!-- END navbar header-->
+
+                    <!-- START Nav wrapper-->
+                    <div class="nav-wrapper">
+                        <!-- START Right Navbar-->
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- START Contacts button-->
+                            {% if USER is not empty %}
+                            <li>
+                                <a href="{{ url('proxy_dashboard_logout') }}" data-toggle-state="offsidebar-open" data-no-persist="true">
+                                    <em class="icon-logout"></em>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <!-- END Contacts menu-->
+                        </ul>
+                        <!-- END Right Navbar-->
+                    </div>
+                    <!-- END Nav wrapper-->
+
+                </nav>
+                <!-- END Top Navbar-->
+            </header>
+            <!-- sidebar-->
+            <aside class="aside">
+                {% include 'ProxyDashboard/layout/sidebar.html.twig' %}
+                <!-- END Sidebar (left)-->
+            </aside>
+            <!-- Main section-->
+            <section>
+                {% include 'ProxyDashboard/layout/content.html.twig' with {
+                    content: block('content'), content_title: block('content_title')
+                } %}
+            </section>
+
+        <!-- Page footer-->
+        <footer>
+            <ul class="footer-nav">
+                <li>
+                    <span>&copy; {{ "now" | date('Y') }} Blazing Proxies</span>
+                </li>
+            </ul>
+        </footer>
+    </div>
+    {% include 'ProxyDashboard/layout/scripts.html.twig' %}
+    {% include 'ProxyDashboard/layout/scripts_app.html.twig' %}
+    {% if CONFIG_VIEW.layout.append_content %}{{ CONFIG_VIEW.layout.append_content | raw }}{% endif %}
+</body>
+</html>

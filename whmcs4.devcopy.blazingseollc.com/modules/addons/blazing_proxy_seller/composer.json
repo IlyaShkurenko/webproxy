@@ -1,0 +1,40 @@
+{
+    "name": "neilsblazingteam/whmcs-proxy-seller",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "And",
+            "email": "and.webdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6",
+        "and/whmcs-module-framework": "0.5.*-dev",
+        "and/symlink-detective": "@dev",
+        "axelarge/array-tools": "@dev",
+        "gears/arrays": "~0.7",
+        "symfony/http-kernel": "~3.2",
+        "monolog/monolog": "~1.22",
+        "kriswallsmith/buzz": "~0.15",
+        "league/event": "~2.1.2",
+        "neilsblazingteam/logger": "~1.0-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "WHMCS\\Module\\Blazing\\Proxy\\Seller\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/sprious-development/logger.git"
+        }
+    ],
+    "config": {
+        "prepend-autoloader": false,
+        "logger": {
+            "appName": "proxy-whmcs-seller"
+        }
+    }
+}

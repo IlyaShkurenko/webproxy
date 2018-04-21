@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+		<meta content="app, responsive, jquery, bootstrap, dashboard, admin" name="keywords">
+		<title>Reseller - Dashboard</title>
+		<!-- =============== VENDOR STYLES ===============-->
+		<!-- FONT AWESOME-->
+		<link href="backend/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+		<!-- SIMPLE LINE ICONS-->
+		<link href="backend/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+		<!-- ANIMATE.CSS-->
+		<link href="backend/vendor/animate.css/animate.min.css" rel="stylesheet">
+		<!-- WHIRL (spinners)-->
+		<link href="backend/vendor/whirl/dist/whirl.css" rel="stylesheet">
+		<!-- =============== PAGE VENDOR STYLES ===============-->
+		<!-- WEATHER ICONS-->
+		<link href="backend/vendor/weather-icons/css/weather-icons.min.css" rel="stylesheet">
+		<!-- =============== BOOTSTRAP STYLES ===============-->
+		<link id="bscss" href="backend/css/bootstrap.css" rel="stylesheet">
+		<!-- =============== APP STYLES ===============-->
+		<link id="maincss" href="backend/css/app.css" rel="stylesheet">
+		<style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<!-- top navbar-->
+			<header class="topnavbar-wrapper">
+				<!-- START Top Navbar-->
+				<nav role="navigation" class="navbar topnavbar">
+					<!-- START navbar header-->
+					<div class="navbar-header">
+						<h3>BlazingSEO Reseller</h3>
+					</div>
+					<!-- END navbar header-->
+					
+					<!-- START Nav wrapper-->
+					<div class="nav-wrapper">
+						<!-- START Right Navbar-->
+						<ul class="nav navbar-nav navbar-right">
+                        
+							<!-- START Contacts button-->
+							<li>
+								<a href="{{ AM_LOGOUT_URL }}" data-toggle-state="offsidebar-open" data-no-persist="true">
+									<em class="icon-logout"></em>
+								</a>
+							</li>
+							<!-- END Contacts menu-->
+                            
+						</ul>
+						<!-- END Right Navbar-->
+					</div>
+					<!-- END Nav wrapper-->
+
+				</nav>
+				<!-- END Top Navbar-->
+			</header>
+			<!-- Main section-->
+            <aside class="aside">
+                <!-- START Sidebar (left)-->
+                <div class="aside-inner">
+                    <nav class="sidebar">
+                        <!-- START sidebar nav-->
+                        <ul class="nav">
+                            <!-- Iterates over all sidebar items-->
+                            <li class="nav-heading ">
+                                <span>Main Navigation</span>
+                            </li>
+                        </ul>
+                        <!-- END sidebar nav-->
+                    </nav>
+                </div>
+                <!-- END Sidebar (left)-->
+            </aside>
+			{% block content %}{% endblock %}			
+			<!-- Page footer-->
+			<footer>
+                <span>&copy; {{ '' | date('Y') }} - BlazingSEO, LLC</span>				
+			</footer>
+		</div>
+        
+		<!-- =============== VENDOR SCRIPTS ===============-->
+		<!-- MODERNIZR-->
+		<script src="backend/vendor/modernizr/modernizr.js"></script>
+		<!-- JQUERY-->
+		<script src="backend/vendor/jquery/dist/jquery.js"></script>
+		<!-- BOOTSTRAP-->
+		<script src="backend/vendor/bootstrap/dist/js/bootstrap.js"></script>
+		<!-- STORAGE API-->
+		<script src="backend/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+		<!-- JQUERY EASING-->
+		<script src="backend/vendor/jquery.easing/js/jquery.easing.js"></script>
+		<!-- ANIMO-->
+		<script src="backend/vendor/animo.js/animo.js"></script>
+		<!-- SLIMSCROLL-->
+		<script src="backend/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+		<!-- SCREENFULL-->
+		<script src="backend/vendor/screenfull/dist/screenfull.js"></script>
+		<!-- LOCALIZE-->
+		<script src="backend/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+		<!-- RTL demo-->
+		<script src="backend/js/demo/demo-rtl.js"></script>
+		<!-- =============== PAGE VENDOR SCRIPTS ===============-->
+		<!-- SPARKLINE-->
+		<script src="backend/vendor/sparklines/jquery.sparkline.min.js"></script>
+		<!-- FLOT CHART-->
+		<script src="backend/vendor/Flot/jquery.flot.js"></script>
+		<script src="backend/vendor/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+		<script src="backend/vendor/Flot/jquery.flot.resize.js"></script>
+		<script src="backend/vendor/Flot/jquery.flot.pie.js"></script>
+		<script src="backend/vendor/Flot/jquery.flot.time.js"></script>
+		<script src="backend/vendor/Flot/jquery.flot.categories.js"></script>
+		<script src="backend/vendor/flot-spline/js/jquery.flot.spline.min.js"></script>
+		<!-- CLASSY LOADER-->
+		<script src="backend/vendor/jquery-classyloader/js/jquery.classyloader.min.js"></script>
+		<!-- MOMENT JS-->
+		<script src="backend/vendor/moment/min/moment-with-locales.min.js"></script>
+		<!-- DEMO-->
+		<script src="backend/js/demo/demo-flot.js"></script>
+		<!-- =============== APP SCRIPTS ===============-->
+		<script src="backend/js/app.js"></script>
+	</body>
+
+</html>

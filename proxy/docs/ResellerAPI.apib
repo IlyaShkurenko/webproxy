@@ -1,0 +1,500 @@
+FORMAT: 1A
+HOST: http://www.blazingseollc.com/reseller/api/proxy
+
+# Blazing SEO Proxy Reseller API
+
+Documentation - http://docs.blazingseoproxyresellerapi.apiary.io/
+
+Documentation editor - https://app.apiary.io/blazingseoproxyresellerapi/editor
+
+# Group User
+
+## List All Users [/user?api_key={api_key}]
+
+### Example [GET]
+
+List of all users associated with that reseller
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+
++ Response 200 (application/json)
+
+        [
+           {
+              "id": 1,
+              "username": "sptech"
+           },
+           {
+              "id":5,
+              "username": "bobdole"
+           }
+        ]
+
+## Get User Details [/user/{user_id}?api_key={api_key}]
+
+### Example [GET]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+
++ Response 200 (application/json)
+
+        {
+           "user_id": "1",
+           "username": "sptech",
+           "rotate_30": "0",
+           "rotate_ever": "0",
+           "rotation_type": "HTTP",
+           "auth_type": "pw",
+           "password": "XXXXX",
+           "ips":[
+              "1.1.1.1",
+              "1.1.1.2"
+           ],
+           "plans":[
+              {
+                 "count": "2",
+                 "replacements_left": "2",
+                 "proxies":[
+                    {
+                       "ip": "172.245.64.254",
+                       "port": "3128",
+                       "proxy_location": "Chicago",
+                       "port_location": "Mixed"
+                    },
+                    {
+                       "ip": "205.234.159.182",
+                       "port": "3128",
+                       "proxy_location": "Chicago",
+                       "port_location": "Mixed"
+                    }
+                 ],
+                 "country": "us",
+                 "category": "semi-3"
+              },
+              {
+                 "count": "2",
+                 "replacements_left": "2",
+                 "proxies":[
+                    {
+                       "ip": "107.173.223.123",
+                       "port": "1029",
+                       "proxy_location": "Buffalo",
+                       "port_location": "Mixed"
+                    },
+                    {
+                       "ip": "104.168.98.189",
+                       "port": "1028",
+                       "proxy_location": "Buffalo",
+                       "port_location": "Mixed"
+                    }
+                 ],
+                 "country": "us",
+                 "category": "rotate"
+              }
+           ]
+        }
+
+## Add New User [/user?api_key={api_key}&_=1&username={username}]
+
+### Example [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - username (string, required)
+
++ Response 200 (application/json)
+
+        {
+           "id": 1
+        }
+
+## Remove User [/user/{user_id}/plan?api_key={api_key}]
+
+Remove existent user and remove all his plans and proxies
+
+### Example [DELETE]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - username (string, required)
+
++ Response 200 (application/json)
+
+        {
+           "success": true,
+           "proxies_removed" => 50,
+           "plans_removed" => 2
+        }
+
+# Group Plans
+
+## Add/change user plan [/user/{user_id}/plan?api_key={api_key}]
+
+Add a new plan to a user or changes the plan they have...this call should be used for new plans, upgrades and downgrades
+
+### Example [POST]
+
+Existing proxies remain in the account on upgrades. So if they have 5 proxies, then upgrade to 10, they are charged a prorated fee and 5 new ones are simply added to their account and ALL proxies should be set to the same start-date. So when the User pays, they will receive "credit" back towards their upgraded fee of the higher amount - so the higher amount will actually be lower for the first 1 month, and then bill the normal price for months after. PayPal has this as the 'trial' option --- you can set the trial option to 'free' for X days, or you can set the trial option for a certain price for X days (in this case, the price would be a lesser amount for the first 30 days since it is prorated).
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - country (string, required)  - example: us
+    - category (string, required) - example: semi-3
+    - count (int, required)
+
++ Response 200 (application/json)
+
+        {
+           "plan_id": "1",
+           "user_id": "1",
+           "country": "us",
+           "category": "semi-3",
+           "count": "5"
+        }
+
+## Set plan expiration [/user/{user_id}/plan/expiration?api_key={api_key}]
+
+Set an expiration on an existing plan
+
+### Example [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - country (string, required)  - example: us
+    - category (string, required) - example: semi-3
+    - expiration (int, required) - Timestamp, like 1466898120
+
++ Response 200 (application/json)
+
+        {
+           "plan_id": "1",
+           "user_id": "1",
+           "country": "us",
+           "category": "semi-3",
+           "count": "5",
+           "expiration": 1466898120
+        }
+
+## Stop plan [/user/{user_id}/plan/{country}/{category}?api_key={api_key}]
+
+Stops their plan, count will always be zero in the return
+
+### Example [DELETE]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+
++ Response 200 (application/json)
+
+        {
+           "plan_id": "1",
+           "user_id": "1",
+           "country": "us",
+           "category": "semi-3",
+           "count": "0" // always zero
+        }
+
+# Group Settings
+
+## Update user settings [/user/{user_id}/settings?api_key={api_key}]
+
+All fields are optional but at least one needs to be passed
+
+### Example [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - rotate_30 (int, optional) - 0 for off, 1 for on
+    - rotate_dead (int, optional) - 0 for off, 1 for on
+    - rotation_type (string, optional) - valid values HTTP, SOCKS
+    - auth_type (string, optional) - valid values ip, pw
+    - password (string, optional)
+
++ Response 200 (application/json)
+
+        {
+           // todo
+        }
+
+## Replace user proxy [/user/{user_id}/replace?api_key={api_key}]
+
+Replaces the proxy with the Returned proxy
+
+### Example [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - ip (string, required) - XXX.XXX.XXX.XXX
+
++ Response 200 (application/json)
+
+        {
+           "ip": "XXX.XXX.XXX.XXX"
+        }
+
+## Update user locations preferences [/user/{user_id}/plan/{country}/{category}/locations?api_key={api_key}]
+
+Sets the user’s location preferences
+
+### Example [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - locations (array, required) - like: { "New York": 2, "Mixed": 3 }
+
++ Response 200 (application/json)
+
+        {
+           // todo
+        }
+
+## Auth IP [/user/{user_id}/ip?api_key={api_key}]
+
+### Add [POST]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - ip (string, required) - XXX.XXX.XXX.XXX
+
++ Response 200 (application/json)
+
+        {
+            // todo
+        }
+
+### Delete [DELETE]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+    - user_id (int, required) - User ID
+    - ip (string, required) - XXX.XXX.XXX.XXX
+
++ Response 200 (application/json)
+
+        {
+            // todo
+        }
+
+# Group Misc
+
+## Get Locations [/locations]
+
+Get the locations offered along with the amount of proxies available in each for us based proxies. This is used to let users know that if they select a certain location that doesn’t have enough proxies to fulfill their desire, then they will have to wait up to 48 hours. See /proxy/dashboard on how this logic works.
+
+### Example [GET]
+
++ Response 200 (application/json)
+
+        {
+           "Mixed":{
+              "semi-3":true,
+              "dedicated":true
+           },
+           "Buffalo":{
+              "semi-3":1188,
+              "dedicated":47
+           },
+           "Chicago":{
+              "semi-3":171,
+              "dedicated":14
+           },
+           "Dallas":{
+              "semi-3":222,
+              "dedicated":41
+           },
+           "Los Angeles":{
+              "semi-3":187,
+              "dedicated":76
+           },
+           "New York City":{
+              "semi-3":9,
+              "dedicated":false
+           }
+        }
+
+## Get Countries [/countries]
+
+This is not needed for now, we will add other countries in later. Starting reseller panel will be US-only
+
+### Example [GET]
+
++ Response 200 (application/json)
+
+        {
+           "us":[
+              "rotate",
+              "dedicated",
+              "semi-3"
+           ],
+           "de":[
+              "rotate",
+              "dedicated",
+              "semi-3"
+           ],
+           "br":[
+              "rotate",
+              "dedicated",
+              "semi-3"
+           ]
+        }
+
+## Get Balance [/balance]
+
+### Example [GET]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+
++ Response 200 (application/json)
+
+        {
+           "reseller_id":"1",
+           "email":"michael@splicertech.com",
+           "credits":"50.00"
+        }
+
+## Get Pricing [/pricing]
+
+Get original pricing for proxies (that pricing is used to charge reseller)
+
+### Example [GET]
+
++ Parameters
+
+    - api_key (string, required) - Your API key
+
++ Response 200 (application/json)
+
+        {
+           "reseller_id": "1",
+           "pricing": {
+              "us":{
+                 "dedicated":[
+                    {
+                       "min":1,
+                       "max":100,
+                       "price":1
+                    },
+                    {
+                       "min":101,
+                       "max":500,
+                       "price":1
+                    },
+                    {
+                       "min":501,
+                       "max":1000,
+                       "price":1
+                    },
+                    {
+                       "min":1001,
+                       "max":2500,
+                       "price":1
+                    },
+                    {
+                       "min":2501,
+                       "max":5000,
+                       "price":1
+                    },
+                    {
+                       "min":5001,
+                       "max":1000000,
+                       "price":1
+                    }
+                 ],
+                 "sneaker":[
+                    {
+                       "min":1,
+                       "max":100,
+                       "price":1
+                    },
+                    {
+                       "min":101,
+                       "max":500,
+                       "price":1
+                    },
+                    {
+                       "min":501,
+                       "max":1000,
+                       "price":1
+                    },
+                    {
+                       "min":1001,
+                       "max":2500,
+                       "price":1
+                    },
+                    {
+                       "min":2501,
+                       "max":5000,
+                       "price":1
+                    },
+                    {
+                       "min":5001,
+                       "max":10000,
+                       "price":1
+                    },
+                    {
+                       "min":10001,
+                       "max":1000000,
+                       "price":1
+                    }
+                 ]
+              },
+              "br":{
+                 "semi-3":[
+                    {
+                       "min":1,
+                       "max":100,
+                       "price":0.5
+                    },
+                    {
+                       "min":101,
+                       "max":500,
+                       "price":0.48
+                    },
+                    {
+                       "min":501,
+                       "max":1000,
+                       "price":0.45
+                    },
+                    {
+                       "min":1001,
+                       "max":2500,
+                       "price":0.42
+                    },
+                    {
+                       "min":2501,
+                       "max":5000,
+                       "price":0.4
+                    },
+                    {
+                       "min":5001,
+                       "max":1000000,
+                       "price":0.37
+                    }
+                 ]
+              }
+           }
+        }
